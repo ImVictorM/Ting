@@ -20,12 +20,21 @@ def process(path_file: str, instance: Queue):
         }
 
         instance.enqueue(file_info)
-        sys.stdout.write(str(file_info))
+        return sys.stdout.write(str(file_info))
 
 
-def remove(instance):
-    """Aqui irá sua implementação"""
+def remove(instance: Queue):
+    if not len(instance):
+        return sys.stdout.write("Não há elementos\n")
+
+    removed = instance.dequeue()["nome_do_arquivo"]
+
+    print(f"Arquivo {removed} removido com sucesso", file=sys.stdout)
 
 
-def file_metadata(instance, position):
-    """Aqui irá sua implementação"""
+def file_metadata(instance: Queue, position):
+    try:
+        file = instance.search(position)
+        return sys.stdout.write(str(file))
+    except IndexError:
+        return sys.stderr.write("Posição inválida")
